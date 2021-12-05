@@ -38,23 +38,63 @@ namespace TechJobsConsole
             return values;
         }
 
+
+
+        public static List<Dictionary<string, string>> FindByValue(string column, string value)
+        {
+
+            LoadData();
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                //string key = job[column];
+
+                //if (key.Contains(value))
+                foreach (KeyValuePair<string, string> kvp in job)
+                {
+                    //jobs.Add(job);
+                    if (kvp.Value.ToLower().Contains(value.ToLower()))
+                    {
+                        if (!jobs.Contains(job))
+                            jobs.Add(job);
+                    }
+                }
+            }
+
+            return jobs;
+        }
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
+
         {
             // load data, if not already loaded
             LoadData();
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
-
-            foreach (Dictionary<string, string> row in AllJobs)
+            if (column == "all")
             {
-                string aValue = row[column];
-
-                if (aValue.Contains(value))
+                foreach (Dictionary<string, string> row in AllJobs)
                 {
-                    jobs.Add(row);
+                    foreach (KeyValuePair<string, string> itemline in row)
+                    {
+                        if (itemline.Value.ToLower().Contains(value.ToLower()))
+                        {
+                            string aValue = row[column];
+                        }
+                    }
                 }
             }
+            {
+                foreach (Dictionary<string, string> row in AllJobs)
+                {
+                    string aValue = row[column];
 
+                    if (aValue.ToLower().Contains(value.ToLower()))
+                    {
+                        jobs.Add(row);
+                    }
+                }
+            }
             return jobs;
         }
 
